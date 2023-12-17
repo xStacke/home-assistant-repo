@@ -1,6 +1,6 @@
 blueprint:
-  name: STYBAR ikea remote v1.0 - by xStacke
-  description: STYBAR remote blueprint for dimming and toggling lights
+  name: Ikea STYRBAR toggle remote v1.0 - by xStacke
+  description: STYRBAR remote blueprint with toggle button and dim up and down options
   domain: automation
   # Changelog
   # 17-12-23 | split blueprint into a toggle and on/off version for lights
