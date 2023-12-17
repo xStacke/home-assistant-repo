@@ -3,7 +3,7 @@ blueprint:
   description: STYBAR remote blueprint for dimming and toggling lights
   domain: automation
   # Changelog
-  # 17-12-23 | added option to have a turn on and turn off button, commented out. to swap from toggle to turn off and on uncomment the on and off button code and comment / delete the toggle.
+  # 17-12-23 | split blueprint into a toggle and on/off version for lights
   #
   #
   #
