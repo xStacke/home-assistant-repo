@@ -1,10 +1,10 @@
 # Project Title
 
-A concise and descriptive project title.
+HomeAssistant HomeBrew
 
 ## Description
 
-Provide a brief overview of your project. Explain its purpose, features, and any other relevant information.
+A collection of my home brew home assistant blueprints
 
 ## Table of Contents
 
