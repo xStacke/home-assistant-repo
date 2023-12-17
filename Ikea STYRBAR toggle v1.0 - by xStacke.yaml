@@ -1,0 +1,118 @@
+blueprint:
+  name: STYBAR ikea remote v1.0 - by xStacke
+  description: STYBAR remote blueprint for dimming and toggling lights
+  domain: automation
+  # Changelog
+  # 17-12-23 | added option to have a turn on and turn off button, commented out. to swap from toggle to turn off and on uncomment the on and off button code and comment / delete the toggle.
+  #
+  #
+  #
+
+  # User inputs while deploying the blueprint
+  input:
+    remote:
+      name: Select STYBAR switch
+      description: Choose the STYBAR you want to use for this automation
+      selector:
+        device:
+          manufacturer: IKEA of Sweden
+          multiple: false
+    target_light:
+      name: Lights
+      description: The lights you want to control with the remote
+      selector:
+        target:
+          entity:
+            - domain:
+                - light
+
+# Triggers for the blueprint to function
+trigger:
+  # turn on pressed and off pressed
+  - platform: device
+    device_id: !input remote
+    domain: zha
+    type: remote_button_short_press
+    subtype: turn_on
+    id: turn-on
+  - platform: device
+    device_id: !input remote
+    domain: zha
+    type: remote_button_short_press
+    subtype: turn_off
+    id: turn-off
+  # Dim up long press and release
+  - platform: device
+    domain: zha
+    device_id: !input remote
+    type: remote_button_long_press
+    subtype: dim_up
+    id: dim-up-pressed
+  - platform: device
+    domain: zha
+    device_id: !input remote
+    type: remote_button_long_release
+    subtype: dim_up
+    id: dim-up-released
+  # Dim down long press and release
+  - platform: device
+    domain: zha
+    device_id: !input remote
+    type: remote_button_long_press
+    subtype: dim_down
+    id: dim-down-pressed
+  - platform: device
+    domain: zha
+    device_id: !input remote
+    type: remote_button_long_release
+    subtype: dim_down
+    id: dim-down-released
+
+# Actions for the blueprint to take
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id:
+              - turn-on
+        sequence:
+          - service: light.toggle
+            data: {}
+            target: !input target_light
+        alias: Toggle Lights
+
+      # Dim up
+      - conditions:
+          - condition: trigger
+            id:
+              - dim-up-pressed
+        sequence:
+          - repeat:
+              sequence:
+                - service: light.turn_on
+                  target: !input target_light
+                  data:
+                    brightness_step_pct: 10
+              while:
+                - condition: trigger
+                  id:
+                    - dim-up-pressed
+
+      # Dim down
+      - conditions:
+          - condition: trigger
+            id:
+              - dim-down-pressed
+        sequence:
+          - repeat:
+              sequence:
+                - service: light.turn_on
+                  target: !input target_light
+                  data:
+                    brightness_step_pct: -10
+              while:
+                - condition: trigger
+                  id:
+                    - dim-down-pressed
+
+mode: restart
