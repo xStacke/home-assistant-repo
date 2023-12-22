@@ -1,5 +1,5 @@
 blueprint:
-  name: Ikea STYRBAR toggle remote v1.0 - by xStacke
+  name: Ikea STYRBAR remote toggle v1.0 - by xStacke
   description: STYRBAR remote blueprint with toggle button and dim up and down options
   domain: automation
   # Changelog
