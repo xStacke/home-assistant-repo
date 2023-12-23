@@ -35,7 +35,10 @@ A collection of my Home Brew home assistant blueprints
 <br>
 <p><i>Ikea STYRBAR remote toggle v1.0:</i></p>
 <p>The toggle STYRBAR blueprint has the dim up button be a toggle, turning the lights on if they are off and off if on. Holding the dim buttons up or down will increase or decrease brightness</p>
-
+<br>
+<p><i>Ikea TRADFRI motion sensor v1.0:</i></p>
+<p>Blueprint for motion sensors, should work with other brands as well. It has been tested with the Ikea TRADFRI and Silvercrest/Lidl motion sensors. The blueprint is mostly based on the default motion sensor blueprint that should come with your home assistant installation</p>
+<p>For motion sensors, keep in mind most motion sensors have lockout timers. It seems to vary sometimes but from limited testing and some googling it seems the Ikea TRADFRI should have a 3 minute lockout window. This means if lights are turned off before this lockout window has passed it cannot detect motion and turn the lights back on until the lockout is lifted </p>
 
 
 
