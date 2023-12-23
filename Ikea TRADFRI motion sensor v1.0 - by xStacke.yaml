@@ -5,7 +5,7 @@ blueprint:
   input:
     motion_entity:
       name: "Motion Sensor"
-      description: "select the motion sensor"
+      description: "select the motion sensor, should support other brands besides Ikea as well"
       selector:
         entity:
           filter:
