@@ -1,0 +1,52 @@
+blueprint:
+  name: "Ikea TRADFRI motion sensor v1.0 - by xStacke"
+  description: "Turn on a light when motion is detected. Should work for other motion sensor brands as well. Based on the default blueprint that should come with home assistant installations."
+  domain: automation
+  input:
+    motion_entity:
+      name: "Motion Sensor"
+      description: "select the motion sensor"
+      selector:
+        entity:
+          filter:
+            device_class: motion
+            domain: binary_sensor
+    light_target:
+      name: "Light"
+      description: "select the lights to be turned on by the motion sensor"
+      selector:
+        target:
+          entity:
+            domain: light
+    no_motion_wait:
+      name: "Wait time"
+      description: "Time to leave the light on after last motion is detected. Make sure you take into account the lockout of your selected motion sensor. Example: IKEA Tradfri has a 3 minute lockout timer, if lights go off before the 3 minutes are over, they cannot be turned on by motion until the lockout window of 3 minutes has passed. Time seems to vary for my devices so feel free to experiment with this."
+      default: 180
+      selector:
+        number:
+          min: 0
+          max: 3600
+          unit_of_measurement: seconds
+
+# If motion is detected within the delay,
+# we restart the script.
+mode: restart
+max_exceeded: silent
+
+trigger:
+  - platform: state
+    entity_id: !input motion_entity
+    from: "off"
+    to: "on"
+
+action:
+  - service: light.turn_on
+    target: !input light_target
+  - wait_for_trigger:
+      platform: state
+      entity_id: !input motion_entity
+      from: "on"
+      to: "off"
+  - delay: !input no_motion_wait
+  - service: light.turn_off
+    target: !input light_target
