@@ -10,6 +10,7 @@ A collection of my Home Brew home assistant blueprints
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Roadmap](#Roadmap)
 
 
 
@@ -40,7 +41,15 @@ A collection of my Home Brew home assistant blueprints
 <p>Blueprint for motion sensors, should work with other brands as well. It has been tested with the Ikea TRADFRI and Silvercrest/Lidl motion sensors. The blueprint is mostly based on the default motion sensor blueprint that should come with your home assistant installation</p>
 <p>For motion sensors, keep in mind most motion sensors have lockout timers. It seems to vary sometimes but from limited testing and some googling it seems the Ikea TRADFRI should have a 3 minute lockout window. This means if lights are turned off before this lockout window has passed it cannot detect motion and turn the lights back on until the lockout is lifted </p>
 
+## Roadmap
 
+<p>Below is a short and to the point roadmap for planned features in no particular order</p>
+ <ul>
+  <li>Blueprint for door sensors (once I get mine installed on the wall/door)</li>
+  <li>Adding inputs for the left and right buttons on the Ikea STYRBAR remotes</li>
+  <li>Blueprint for the Ikea TRADFRI ON/OFF Switch</li>
+  <li>Basic Dashboard template?</li>
+</ul> 
 
 
 

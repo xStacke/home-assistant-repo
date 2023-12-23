@@ -1,0 +1,34 @@
+blueprint:
+  name: Turn off lights when nobody is home v1.0 - by xStacke
+  description: Turn off all the lights when nobody is home.
+  domain: automation
+  # Changelog
+  # 23-12-2023 | Converted the automation into a blueprint.
+  #
+  #
+  #
+  input:
+    zone_entity:
+      name: Home Zone
+      description: Select the home zone where the lights have to be turned off.
+      selector:
+        entity:
+          domain: zone
+    lights_area:
+      name: Lights Area
+      description: Select the areas containing the lights to be turned off.
+      selector:
+        target:
+          entity:
+            domain: light
+
+mode: single
+
+trigger:
+  platform: state
+  entity_id: !input "zone_entity"
+  to: "0"
+
+action:
+  - service: light.turn_off
+    target: !input lights_area

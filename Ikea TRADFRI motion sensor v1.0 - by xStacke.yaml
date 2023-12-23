@@ -2,6 +2,11 @@ blueprint:
   name: "Ikea TRADFRI motion sensor v1.0 - by xStacke"
   description: "Turn on a light when motion is detected. Should work for other motion sensor brands as well. Based on the default blueprint that should come with home assistant installations."
   domain: automation
+  # Changelog
+  # 23-12-2023 | Modified the by default included home assistant motion sensor blueprint
+  #
+  #
+  #
   input:
     motion_entity:
       name: "Motion Sensor"
