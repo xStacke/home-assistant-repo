@@ -4,7 +4,7 @@ blueprint:
   domain: automation
   # Changelog
   # 17-12-23 | split blueprint into a toggle and on/off version for lights
-  #
+  # 27-12-23 | Added inputs for the left and right button, short press only currently
   #
   #
 
@@ -25,6 +25,18 @@ blueprint:
           entity:
             - domain:
                 - light
+    left_short:
+      name: Action for the left button (Optional) (short press)
+      description: Action to run on short right button press.
+      default: []
+      selector:
+        action: {}
+    right_short:
+      name: Action for the right button (Optional) (short press)
+      description: Action to run on short right button press.
+      default: []
+      selector:
+        action: {}
 
 # Triggers for the blueprint to function
 trigger:
@@ -67,6 +79,20 @@ trigger:
     type: remote_button_long_release
     subtype: dim_down
     id: dim-down-released
+  # Left press
+  - platform: device
+    domain: zha
+    device_id: !input remote
+    type: remote_button_short_press
+    subtype: left
+    id: left-pressed
+  # right press
+  - platform: device
+    domain: zha
+    device_id: !input remote
+    type: remote_button_short_press
+    subtype: right
+    id: right-pressed
 
 # Actions for the blueprint to take
 action:
@@ -90,7 +116,7 @@ action:
             target: !input target_light
         alias: turn off Lights
 
-      # Dim up
+      # Dim up long press
       - conditions:
           - condition: trigger
             id:
@@ -107,7 +133,7 @@ action:
                   id:
                     - dim-up-pressed
 
-      # Dim down
+      # Dim down long press
       - conditions:
           - condition: trigger
             id:
@@ -123,5 +149,19 @@ action:
                 - condition: trigger
                   id:
                     - dim-down-pressed
+
+      # left press
+      - conditions:
+          - condition: trigger
+            id:
+              - left-pressed
+        sequence: !input left_short
+
+      # left press
+      - conditions:
+          - condition: trigger
+            id:
+              - right-pressed
+        sequence: !input right_short
 
 mode: restart
