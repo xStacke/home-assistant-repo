@@ -1,0 +1,111 @@
+blueprint:
+  name: Ikea TRADFRI ON/OFF Switch v1.0 - by xStacke
+  description: STYRBAR remote blueprint for dimming and toggling lights
+  domain: automation
+  input:
+    remote:
+      name: Select STYBAR switch
+      description: Choose the STYBAR you want to use for this automation
+      selector:
+        device:
+          manufacturer: IKEA of Sweden
+          multiple: false
+    target_light:
+      name: Lights
+      description: The lights you want to control with the remote
+      selector:
+        target:
+          entity:
+            - domain:
+                - light
+
+trigger:
+  - platform: device
+    device_id: !input remote
+    domain: zha
+    type: remote_button_short_press
+    subtype: turn_on
+    id: turn-on
+  - platform: device
+    device_id: !input remote
+    domain: zha
+    type: remote_button_short_press
+    subtype: turn_off
+    id: turn-off
+  - platform: device
+    domain: zha
+    device_id: !input remote
+    type: remote_button_long_press
+    subtype: dim_up
+    id: dim-up-pressed
+  - platform: device
+    domain: zha
+    device_id: !input remote
+    type: remote_button_long_release
+    subtype: dim_up
+    id: dim-up-released
+  - platform: device
+    domain: zha
+    device_id: !input remote
+    type: remote_button_long_press
+    subtype: dim_down
+    id: dim-down-pressed
+  - platform: device
+    domain: zha
+    device_id: !input remote
+    type: remote_button_long_release
+    subtype: dim_down
+    id: dim-down-released
+
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id:
+              - turn-on
+        sequence:
+          - service: light.turn_on
+            data: {}
+            target: !input target_light
+        alias: turn on Lights
+      - conditions:
+          - condition: trigger
+            id:
+              - turn-off
+        sequence:
+          - service: light.turn_off
+            data: {}
+            target: !input target_light
+        alias: turn off Lights
+      - conditions:
+          - condition: trigger
+            id:
+              - dim-up-pressed
+        sequence:
+          - repeat:
+              sequence:
+                - service: light.turn_on
+                  target: !input target_light
+                  data:
+                    brightness_step_pct: 10
+              while:
+                - condition: trigger
+                  id:
+                    - dim-up-pressed
+      - conditions:
+          - condition: trigger
+            id:
+              - dim-down-pressed
+        sequence:
+          - repeat:
+              sequence:
+                - service: light.turn_on
+                  target: !input target_light
+                  data:
+                    brightness_step_pct: -10
+              while:
+                - condition: trigger
+                  id:
+                    - dim-down-pressed
+
+mode: restart

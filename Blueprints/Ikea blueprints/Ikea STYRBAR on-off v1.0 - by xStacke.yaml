@@ -1,5 +1,5 @@
 blueprint:
-  name: Ikea STYRBAR remote on/off v1.0 - by xStacke
+  name: Ikea STYRBAR remote on/off v1.1 - by xStacke
   description: STYRBAR remote blueprint for dimming and toggling lights
   domain: automation
   # Changelog
