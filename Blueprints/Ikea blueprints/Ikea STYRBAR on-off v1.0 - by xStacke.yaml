@@ -5,7 +5,7 @@ blueprint:
   # Changelog
   # 17-12-23 | split blueprint into a toggle and on/off version for lights
   # 27-12-23 | Added inputs for the left and right button, short press only currently
-  #
+  # 14-01-24 | Fixed staggered dimming, transition is now smooth
   #
 
   # User inputs while deploying the blueprint
@@ -128,6 +128,7 @@ action:
                   target: !input target_light
                   data:
                     brightness_step_pct: 10
+                    transition: 1
               while:
                 - condition: trigger
                   id:
@@ -145,6 +146,7 @@ action:
                   target: !input target_light
                   data:
                     brightness_step_pct: -10
+                    transition: 1
               while:
                 - condition: trigger
                   id:
